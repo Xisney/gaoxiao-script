@@ -10,14 +10,15 @@
 
 ;(function () {
   'use strict'
-  const executeUntilSuccess = (target, span = 500) => {
-    if (typeof target !== 'function') return
+  const executeUntilSuccess = (target, span = 500, count = 0) => {
+    if (typeof target !== 'function' || count > 9) return
 
     try {
       target()
     } catch (e) {
+      console.log(e)
       setTimeout(() => {
-        executeUntilSuccess(target, span)
+        executeUntilSuccess(target, span, count + 1)
       }, span)
     }
   }
@@ -118,7 +119,14 @@
               .getAttribute('data')
               .split('')
               .map(char => {
-                return char.codePointAt(0) - 'A'.codePointAt(0)
+                switch (char) {
+                  case '对':
+                    return 0
+                  case '错':
+                    return 1
+                  default:
+                    return char.codePointAt(0) - 'A'.codePointAt(0)
+                }
               })
 
             const answers = $(this)
@@ -130,15 +138,15 @@
 
             if (i !== quizItems.length - 1) {
               $('.gxb-video-quiz .gxb-icon-next').click()
-              console.log('cccsfa');
+              console.log('cccsfa')
             }
           })
 
           $('.gxb-video-quiz-footer .gxb-btn_.submit').click()
-          setTimeout(()=>{
+          setTimeout(() => {
             // 使得用户可感知答题结果，也确保dom更新完成
             $('.gxb-video-quiz-footer .gxb-btn_.player').click()
-          },500)
+          }, 1000)
         }
       }
     })
