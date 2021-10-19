@@ -16,7 +16,6 @@
     try {
       target()
     } catch (e) {
-      console.log(e)
       setTimeout(() => {
         executeUntilSuccess(target, span, count + 1)
       }, span)
@@ -28,16 +27,6 @@
     if (name === 'blur') return
     listen(name, callback, options)
   }
-
-  window.addEventListener('load', () => {
-    // 避免jQuery不存在，导致无限报错，引发内存泄漏
-    if (typeof jQuery !== 'function') {
-      const script = document.createElement('script')
-      script.src =
-        'https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js'
-      document.head.appendChild(script)
-    }
-  })
 
   const finishByClick = () => {
     if (typeof jQuery !== 'funtion') {
